@@ -1,2 +1,2 @@
 # web-django-project1
-reviewing de Web Django  Rest Framework
+reviewing Web Django  Rest Framework
