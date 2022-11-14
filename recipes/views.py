@@ -3,9 +3,12 @@ from django.shortcuts import render
 
 
 # Create your views here.
-# HTTP REQUEST
+# django está retornando renderizado a request e o caminho template
+# HTTP REQUEST, TEMPLATE_NAME = caminho do template
 def home(request):
-    return render(request, "home.html" )
+    return render(request, "global/home.html", context= {
+        "name": "Gabriel Lemos",
+    }) 
 
 
 # HTTP REQUEST
@@ -15,4 +18,5 @@ def sobre(request):
 
 # HTTP REQUEST
 def contato(request):
-    return HttpResponse("contato")
+    return render(request, "tempdelete/temp.html")
+    
