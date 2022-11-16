@@ -1,18 +1,16 @@
 {% include "recipes/partials/head.html" %}
 
 <body>
+    {% include "recipes/partials/header.html" %}
 
-    <header class="main-header-container">
-        <div class="main-header container">
-            <h1>
-                <a href="#" class="main-logo">
-                    <i class="fa-solid fa-house main-logo-icon"></i>
-                    <span class="main-logo-text">pasta recipes.templates</span>
-                </a>
-            </h1>
+    <div class="search-container">
+        <div class="container">
+            <form action="" class="search-form">
+                <input type="search" class="search-input" name="search">
+                <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+            </form>
         </div>
-    </header>
-
+    </div>
 </body>
 
 </html>
