@@ -36,25 +36,25 @@
                         temporibus quo quaerat iure, sequi culpa.
                     </p>
                 </div>
-                <div class="recipe-meta-container">
-                    <div class="recipe-meta recipe-preparation">
-                        <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparo</h3>
-                        <div class="recipe-meta-text">
-                            0 Minutos
-                        </div>
-                    </div>
-                    <div class="recipe-meta recipe-servings">
-                        <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Porções</h3>
-                        <div class="recipe-meta-text">
-                            0 Porções
-                        </div>
-                    </div>
-                </div>
 
+                
             </div>
         </div>
 
-
+        <div class="recipe-meta-container">
+            <div class="recipe-meta recipe-preparation">
+                <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparo</h3>
+                <div class="recipe-meta-text">
+                    0 Minutos
+                </div>
+            </div>
+            <div class="recipe-meta recipe-servings">
+                <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Porções</h3>
+                <div class="recipe-meta-text">
+                    0 Porções
+                </div>
+            </div>
+        </div>
     </main>
 </body>
 
