@@ -180,6 +180,8 @@
             box-shadow: -5px 5px 10px rgba(0, 0, 0, 20%);
             transform: scale(1);
             transition: all 300ms ease-in-out;
+            border-radius: 1rem;
+            overflow: hidden;
 
         }
 
@@ -259,6 +261,26 @@
 
         .recipe-footer a:hover {
             filter: brightness(2);
+        }
+
+        .main-footer {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-primary-dark);
+            color: var(--color-white);
+            padding: 4rem 11rem;
+        }
+
+        .main-footer a {
+            color: var(--color-white);
+            text-decoration: none;
+        }
+
+        .main-footer a:hover {
+            filter: brightness(.8);
+            transition: all 300ms ease-in-out;
         }
     </style>
 </head>
