@@ -112,7 +112,6 @@
             /* tamanho main-logo vai se o tamanho de seu conteúdo */
             width: fit-content;
             margin: 0 auto;
-            /* background: red; */
         }
 
         .main-logo-icon {
@@ -166,11 +165,13 @@
         }
 
         .main-content {
-            background: red;
+            padding-top: 0;
         }
 
-        .temp {
-            height: 40rem;
+        .main-content-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: var(--spacing-gutter-large);
         }
     </style>
 </head>
