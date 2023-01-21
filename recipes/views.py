@@ -5,13 +5,13 @@ from django.shortcuts import render
 
 
 # http Request <- return http Response
-def home(Request):
-    return HttpResponse("TESTE RETORNO home")
+def home(request):
+    return render(request, "global/home.html")
 
 
-def about(Request):
+def about(request):
     return HttpResponse("TESTE RETORNO sobre")
 
 
-def contact(Request):
+def contact(Requrequestest):
     return HttpResponse("TESTE RETORNO contato")
