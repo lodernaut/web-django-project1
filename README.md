@@ -1,2 +1,2 @@
-# web-django-project1
+# web django project1
  
