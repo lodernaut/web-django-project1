@@ -222,16 +222,11 @@
             padding: 0 var(--spacing-gutter-medium);
         }
 
-        .recipe-author-link {
-            margin-top: 1rem;
-            padding-bottom: 0;
-        }
-
         .recipe-content {
             /* padding: var(--spacing-gutter-medium); */
             /* padding-top: calc(var(--spacing-gutter-medium) / 2); */
-            padding: 1.5rem 2rem;
-            padding-top: 1rem;
+            padding: var(--spacing-gutter-medium);
+            padding-top: 2rem;
             text-align: center;
         }
 
@@ -262,10 +257,6 @@
             padding: 1rem 2rem;
             border-radius: 5rem;
             transition: all 300ms ease-in-out;
-        }
-
-        .xxx {
-            text-decoration: none;
         }
 
         .recipe-meta-container {
