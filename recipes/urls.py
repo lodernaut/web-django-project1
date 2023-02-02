@@ -1,8 +1,10 @@
 from django.urls import path
 
-from recipes.views import home
+from . import views
 
 # http Request <- return http Response
 urlpatterns = [
-    path("", home),  # domínio/recipes  → # home
+    path("", views.home),  # domínio/recipes  → # home
+    # passando paramento <id> → para → views.recipe
+    path("recipes/<int:id>/", views.recipe),
 ]
