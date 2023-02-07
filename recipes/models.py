@@ -7,6 +7,10 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=65)
 
+    # magic method
+    def __str__(self):
+        return self.name
+
 
 class Recipe(models.Model):  # herdando de models.Model
     # campo de texto com máximo de 65 caracteres.
@@ -38,3 +42,7 @@ class Recipe(models.Model):  # herdando de models.Model
 
     author = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True)
+
+    # magic method
+    def __str__(self):
+        return self.title
