@@ -1,5 +1,7 @@
 from django.test import TestCase
-from django.urls import reverse
+from django.urls import resolve, reverse
+
+from . import views
 
 
 # Create your tests here.
@@ -8,3 +10,28 @@ class RecipeURLsTest(TestCase):
         url = reverse("recipes:home")
         # testando se url é igual a barra
         self.assertEqual(url, "/")
+
+    def test_recipe_category_url_is_correct(self):
+        # args → passar argumentos em ordem → args(1,)
+        # kwargs → passar um dicionário com argumentos nomeados → kwargs={"category_id": 1} # noqa: E501
+        url = reverse("recipes:category", kwargs={"category_id": 1})
+        self.assertEqual(url, "/recipes/category/1/")
+
+    def test_recipe_detail_url_is_correct(self):
+        url = reverse("recipes:recipe", args=(1,))
+        self.assertEqual(url, "/recipes/1/")
+
+
+class RecipeViewsTest(TestCase):
+    # teste: função de view → 'home' está correta?
+    def test_recipe_home_view_function_is_correct(self):
+        view = resolve(reverse("recipes:home"))
+        self.assertIs(view.func, views.home)
+
+    def test_recipe_category_view_function_is_correct(self):
+        view = resolve(reverse("recipes:category", kwargs={"category_id": 1}))
+        self.assertIs(view.func, views.category)
+
+    def test_recipe_detail_view_function_is_correct(self):
+        view = resolve(reverse("recipes:recipe", args=(1,)))
+        self.assertIs(view.func, views.recipe)

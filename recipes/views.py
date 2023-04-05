@@ -21,7 +21,7 @@ def category(request, category_id):
     return render(request, "recipes/pages/category.html", context={
         "recipes": recipes,
         # como é uma lista e não uma queryset buscar o índice [0] e não first()
-        "title": f"{recipes[0].category.name}",
+        "title": f"{recipes[0].category.name}",  # type: ignore
     })
 
 
