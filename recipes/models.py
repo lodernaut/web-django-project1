@@ -22,7 +22,7 @@ class Recipe(models.Model):  # herdando de models.Model
     servings = models.IntegerField()
     servings_unit = models.CharField(max_length=65)
     preparation_step = models.TextField()  # campo → text-area
-    # campo de escolha → startando como False.
+    # campo de escolha → startando como False. cspell:disable-line
     preparation_step_is_html = models.BooleanField(default=False)
 
     # auto_now_add=True → gera data apenas na criação.
