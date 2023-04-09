@@ -5,17 +5,31 @@ from recipes.models import Category, Recipe, User
 
 class RecipeTestBase(TestCase):
     def setUp(self) -> None:
-        category = Category.objects.create(name="Category")
-        author = User.objects.create_user(
+        return super().setUp()
+
+    # recebendo parâmetro name e deixando padrão "Category"
+    def make_category(self, name="Category"):
+        return Category.objects.create(name=name)
+
+    def make_author(
+            self,
             first_name="User",
             last_name="Name",
-            username="username",  # cspell:disable-line
+            username="username",
             email="testing@devrecipe.com",
-            password="test2023",
-        )
-        recipe = Recipe.objects.create(
-            category=category,
-            author=author,
+            password="test2023"):
+
+        return User.objects.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            email=email,
+            password=password)
+
+    def make_recipe(
+            self,
+            category_data=None,
+            author_data=None,
             title='Recipe Title',
             description='Recipe Description',
             slug='recipe-slug',
@@ -25,6 +39,23 @@ class RecipeTestBase(TestCase):
             servings_unit='Porções',
             preparation_step='Recipe Preparation Steps',
             preparation_step_is_html=False,
-            is_published=True,
-        )
-        return super().setUp()
+            is_published=True):
+
+        if category_data is None:
+            category_data = {}
+        if author_data is None:
+            author_data = {}
+
+        return Recipe.objects.create(
+            category=self.make_category(**category_data),  # ← desempacotamento
+            author=self.make_author(**author_data),
+            title=title,
+            description=description,
+            slug=slug,
+            preparation_time=preparation_time,
+            preparation_time_unit=preparation_time_unit,
+            servings=servings,
+            servings_unit=servings_unit,
+            preparation_step=preparation_step,
+            preparation_step_is_html=preparation_step_is_html,
+            is_published=is_published)
