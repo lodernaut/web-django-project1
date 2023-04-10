@@ -26,8 +26,7 @@ class Recipe(models.Model):  # herdando de models.Model
     preparation_step_is_html = models.BooleanField(default=False)
 
     # auto_now_add=True → gera data apenas na criação.
-    created_at = models.DateTimeField(
-        auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     # auto_now=True → gera data apenas em atualização.
     updated_at = models.DateTimeField(auto_now=True)
