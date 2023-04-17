@@ -7,7 +7,7 @@ from .models import Recipe
 
 # http Request <- return http Response
 def home(request):
-    recipes = Recipe.objects.filter(is_published=True).order_by("-id")
+    recipes = Recipe.objects.filter(is_published=True).order_by("?")
     return render(request, "recipes/pages/home.html", context={
         "recipes": recipes,
     })
