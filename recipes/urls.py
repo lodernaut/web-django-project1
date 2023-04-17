@@ -9,7 +9,8 @@ app_name = "recipes"
 urlpatterns = [
     path("", views.home, name="home"),  # domínio/recipes  → # home
     # passando paramento <id> → para → views.recipe
-    path("recipes/category/<int:category_id>/",
-         views.category, name="category"),
+    path(
+        "recipes/category/<int:category_id>/",
+        views.category, name="category"),
     path("recipes/<int:id>/", views.recipe, name="recipe"),
 ]
