@@ -15,7 +15,7 @@ class RecipeModelTest(RecipeTestBase):
             author=self.make_author(username="TestDefaultCategory"),
             title='Recipe Title',
             description='Recipe Description',
-            slug='recipe-slug',
+            slug='recipe-slug-no-defaults',
             preparation_time=10,
             preparation_time_unit='Minutos',
             servings=5,
@@ -62,5 +62,3 @@ class RecipeModelTest(RecipeTestBase):
             msg=f'Recipe string representation must be '
                 f'"{needed}" but "{str(self.recipe)}" was received.'
         )
-
-

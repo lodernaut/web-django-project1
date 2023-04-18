@@ -17,3 +17,8 @@ class RecipeURLsTest(TestCase):
     def test_recipe_detail_url_is_correct(self):
         url = reverse("recipes:recipe", args=(1,))
         self.assertEqual(url, "/recipes/1/")
+
+    def test_recipe_search_url_is_correct(self):
+        # não está recebendo nenhum argumento por está passando por queue string na própria url
+        url = reverse("recipes:search")
+        self.assertEqual(url, "/recipes/search/")
