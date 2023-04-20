@@ -1,8 +1,11 @@
-def fix_search_value(value):
-    return str(value).strip()
+middle_range = 2
+current_page = 1
 
+start_range = current_page - middle_range  # range antes da atual
+stop_range = current_page + middle_range  # range atrás da atual
 
-if __name__ == '__main__':
-    # stripped_string deve conter o valor de 'A' (sem espaços)
-    stripped_string = fix_search_value('     A     ')
-    print(stripped_string)
+if start_range < 0:
+    start_range = 0
+
+print(start_range)
+print(stop_range)
