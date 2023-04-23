@@ -1,5 +1,7 @@
 from math import ceil
 
+from django.core.paginator import Paginator
+
 
 def make_pagination_range(
         page_range,
@@ -42,3 +44,25 @@ def make_pagination_range(
         # saber se a ultima pág está fora do range (não esta sendo exibida)
         "last_page_out_of_range": stop_range < total_pages,
     }
+
+
+def make_pagination(request, queryset, per_page, number_of_pages=4):
+    try:
+        # passando retorno para inteiro, get retorna string
+        current_page = int(request.GET.get("page", 1))
+    except ValueError:
+        current_page = 1  # se houver erro current_page recebe 1
+
+    # passando recipes | quantidade de pág
+    paginator = Paginator(queryset, per_page)
+
+    # obtendo as pág a partir do paginator
+    page_object = paginator.get_page(current_page)
+
+    pagination_range = make_pagination_range(
+        paginator.page_range,  # lista números com cada uma das pág
+        number_of_pages,  # quantas pág quer exibir
+        current_page  # pág atual
+    )
+
+    return page_object, pagination_range

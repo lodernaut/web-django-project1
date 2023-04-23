@@ -1,28 +1,41 @@
+# Create your views here.
+import os
+
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 
+from utils.pagination import make_pagination
+
 from .models import Recipe
 
-# Create your views here.
+PER_PAGE_HOME = int(os.environ.get("PER_PAGE_HOME", 6))
+PER_PAGE_CATEGORY_SEARCH = int(os.environ.get("PER_PAGE_CATEGORY_SEARCH", 6))
 
 
 # http Request <- return http Response
 def home(request):
-    recipes = Recipe.objects.filter(is_published=True).order_by("?")
+    recipes = Recipe.objects.filter(is_published=True).order_by("id")
+
+    page_object, pagination_range = make_pagination(
+        request, recipes, PER_PAGE_HOME)
+
     return render(request, "recipes/pages/home.html", context={
-        "recipes": recipes,
-    })
+        "recipes": page_object,
+        "pagination_range": pagination_range})
 
 
 def category(request, category_id):
     recipes = get_list_or_404(
         Recipe.objects.filter(
-            category__id=category_id, is_published=True,).order_by('-id'))
+            category__id=category_id, is_published=True,).order_by("-id"))
+
+    page_object, pagination_range = make_pagination(
+        request, recipes, PER_PAGE_CATEGORY_SEARCH)
 
     return render(request, "recipes/pages/category.html", context={
-        "recipes": recipes,
-        # como é uma lista e não uma queryset buscar o índice [0] e não first()
+        "recipes": page_object,
+        "pagination_range": pagination_range,
         "title": f"{recipes[0].category.name}",  # type: ignore
     })
 
@@ -53,7 +66,12 @@ def search(request):
 
     ).order_by("-id")
 
+    page_object, pagination_range = make_pagination(
+        request, recipes, PER_PAGE_CATEGORY_SEARCH)
+
     return render(request, "recipes/pages/search.html", context={
         "page_title": f"Search for '{search_term}'",
-        "recipes": recipes,
+        "recipes": page_object,
+        "pagination_range": pagination_range,
+        "additional_url_query": f"&q={search_term}",
     })
