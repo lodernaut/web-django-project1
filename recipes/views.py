@@ -1,6 +1,7 @@
 # Create your views here.
 import os
 
+from django.contrib import messages
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
@@ -19,6 +20,10 @@ def home(request):
 
     page_object, pagination_range = make_pagination(
         request, recipes, PER_PAGE_HOME)
+
+    messages.success(request, "Envio com sucesso")
+    messages.error(request, "Envio com sucesso")
+    messages.info(request, "Envio com sucesso")
 
     return render(request, "recipes/pages/home.html", context={
         "recipes": page_object,
