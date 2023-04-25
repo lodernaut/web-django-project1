@@ -21,9 +21,12 @@ def home(request):
     page_object, pagination_range = make_pagination(
         request, recipes, PER_PAGE_HOME)
 
-    messages.success(request, "Envio com sucesso")
-    messages.error(request, "Envio com sucesso")
-    messages.info(request, "Envio com sucesso")
+    messages.success(
+        request, "Envio com sucesso, Envio com sucesso, Envio com sucesso. , Envio com sucesso.")
+    messages.error(
+        request, "Envio com sucesso, Envio com sucesso, Envio com sucesso., Envio com sucesso.")
+    messages.info(
+        request, "Envio com sucesso, Envio com sucesso, Envio com sucesso. , Envio com sucesso.")
 
     return render(request, "recipes/pages/home.html", context={
         "recipes": page_object,
