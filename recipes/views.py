@@ -1,7 +1,6 @@
 # Create your views here.
 import os
 
-from django.contrib import messages
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
@@ -17,10 +16,6 @@ PER_PAGE_CATEGORY_SEARCH = int(os.environ.get("PER_PAGE_CATEGORY_SEARCH", 6))
 # http Request <- return http Response
 def home(request):
     recipes = Recipe.objects.filter(is_published=True).order_by("id")
-
-    messages.success(request, "sucesso!")
-    messages.error(request, "Error!")
-    messages.info(request, "Info!")
 
     page_object, pagination_range = make_pagination(
         request, recipes, PER_PAGE_HOME)
