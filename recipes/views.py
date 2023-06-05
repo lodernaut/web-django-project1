@@ -18,15 +18,12 @@ PER_PAGE_CATEGORY_SEARCH = int(os.environ.get("PER_PAGE_CATEGORY_SEARCH", 6))
 def home(request):
     recipes = Recipe.objects.filter(is_published=True).order_by("id")
 
+    messages.success(request, "sucesso!")
+    messages.error(request, "Error!")
+    messages.info(request, "Info!")
+
     page_object, pagination_range = make_pagination(
         request, recipes, PER_PAGE_HOME)
-
-    messages.success(
-        request, "Envio com sucesso, Envio com sucesso, Envio com sucesso. , Envio com sucesso.")
-    messages.error(
-        request, "Envio com sucesso, Envio com sucesso, Envio com sucesso., Envio com sucesso.")
-    messages.info(
-        request, "Envio com sucesso, Envio com sucesso, Envio com sucesso. , Envio com sucesso.")
 
     return render(request, "recipes/pages/home.html", context={
         "recipes": page_object,

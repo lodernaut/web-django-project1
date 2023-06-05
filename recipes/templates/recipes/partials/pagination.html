@@ -16,7 +16,7 @@
             {% for page in pagination_range.pagination %}
 
                 {% if pagination_range.current_page == page %}
-                    <a href="?page={{ page }}" class="page-link page-item page-current">
+                    <a href="?page={{ page }}{{ additional_url_query }}" class="page-link page-item page-current">
                         {{ page }}
                     </a>
                 {% else %}
