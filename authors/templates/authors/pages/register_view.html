@@ -1,3 +1,39 @@
 {% extends "global/base.html" %}
 
 {% block title %}Formulário{% endblock title %}
+
+{% block content %}
+
+    <div class="main-content container">
+        <h2>
+            Register
+        </h2>   
+    </div>
+
+    <div class="main-content container">
+        <form action="" method="POST">{% comment %} method="POST" para registrar usuário, diferente do GET está enviado os dados dos campos do formulário no corpo da requisição {% endcomment %}
+            {% csrf_token %}
+            
+            <div class="form-content form-content-grid">
+                {% for field in form %}
+                    <div class="form-group">
+                        {% comment %} label do html requer for, django facilita isso {% endcomment %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}:</label> {% comment %}  id_for_label ← id que o django irá gerar automaticamente para o for do label e o campo abaixo {{ field }} // {{ field.label }} texto do labal{% endcomment %}
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <p class="help-text">{{ field.help_text }}</p>
+                        {% endif %}
+
+                        {% comment %} se existir erros exibir uma ul com a classe error_list  {% endcomment %}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <button type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
