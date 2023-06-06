@@ -7,11 +7,12 @@
     <div class="main-content container">
         <h2>
             Register
+            {{ request.session.number }} {% comment %} acessando → request.session["number"] = request.session.get("number") or 1 // request.session["number"] += 1 {% endcomment %}
         </h2>   
     </div>
 
     <div class="main-content container">
-        <form action="" method="POST">{% comment %} method="POST" para registrar usuário, diferente do GET está enviado os dados dos campos do formulário no corpo da requisição {% endcomment %}
+        <form action="{% url 'authors:create' %}" method="POST">{% comment %} method="POST" para registrar usuário, diferente do GET está enviado os dados dos campos do formulário no corpo da requisição {% endcomment %}
             {% csrf_token %}
             
             <div class="form-content form-content-grid">
