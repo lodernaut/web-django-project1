@@ -2,37 +2,72 @@ from django import forms
 from django.contrib.auth.models import User
 
 
-class RegisterForm(forms.ModelForm):  # formulário de ModelForm
-    class Meta:  # class Meta utilizado para passar metadados do formulário para o django
-        model = User  # sendo atrelado ao model User
-        fields = [  # campos que o django vai atrelar ao formulário
+def add_attr(field, attr_name, attr_new_val):
+    existing_attr = field.widget.attrs.get(attr_name, "")
+    field.widget.attrs[attr_name] = f"{existing_attr} {attr_new_val}".strip()
+
+
+def add_placeholder(field, placeholder_val):
+    field.widget.attrs["placeholder"] = placeholder_val
+
+
+def add_class(field, class_val):
+    field.widget.attrs["class"] = class_val
+
+
+class RegisterForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_placeholder(self.fields["username"], "Your username")
+        add_class(self.fields["username"], "register-form-username")
+
+        add_placeholder(self.fields["email"], "Enter a valid email address")
+        add_class(self.fields["email"], "register-form-email")
+
+        add_placeholder(self.fields["first_name"], "Ex.: Chris")
+        add_class(self.fields["first_name"], "register-form-name")
+
+        add_placeholder(self.fields["last_name"], "Ex.: Morris")
+        add_class(self.fields["last_name"], "register-form-name")
+
+    password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "register-form-password",
+                "placeholder": "Set a password"}),
+        label="Password",
+        error_messages={"required": "Password must not be empty"},
+        help_text=(
+            """Password must have at least one uppercase letter,
+            one lowercase letter and one number. The length should
+            be at least 8 character."""),
+    )
+    password2 = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "register-form-password",
+                "placeholder": "Repeat your password"}),
+        label="Repeat Password",
+        error_messages={"required": "Password must not be empty"},
+    )
+    email = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "class": "register-form-email",
+            }),
+        label="Email",
+        error_messages={"required": "Password must not be empty"},
+    )
+
+    class Meta:
+        model = User
+        fields = [
             "first_name",
             "last_name",
             "username",
             "email",
             "password",
         ]
-        labels = {
-            "first_name": "First Name",
-            "last_name": "Last Name",
-            "username": "Username",
-            "email": "Email",
-            "password": "Password",
-        }
-        help_texts = {
-            "username": "Apenas letras, números e @/./+/-/_",
-        }
-        error_messages = {
-            "username": {
-                "required": "This field must not be empty.",
-                "invalid": "this field is invalid."
-            },
-        }
-        widgets = {
-            "username": forms.TextInput(attrs={
-                "placeholder": "Type your username here."
-            }),
-            "password": forms.PasswordInput(attrs={
-                "placeholder": "Type your password here."
-            }),
-        }
