@@ -15,11 +15,16 @@ def add_class(field, class_val):
     field.widget.attrs["class"] = class_val
 
 
+def add_label(field, label_val):
+    field.label = label_val
+
+
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         add_placeholder(self.fields["username"], "Your username")
         add_class(self.fields["username"], "register-form-username")
+        add_label(self.fields["username"], "Usuário")
 
         add_placeholder(self.fields["email"], "Enter a valid email address")
         add_class(self.fields["email"], "register-form-email")
