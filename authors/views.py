@@ -7,8 +7,8 @@ from .forms import RegisterForm
 # Create your views here.
 def register_view(request):
     register_form_data = request.session.get(
-        "register_form_Data", None)  # padrão já é None
-    form = RegisterForm()
+        "register_form_data", None)  # padrão já é None
+    form = RegisterForm(register_form_data)
 
     return render(
         request, "authors/pages/register_view.html", {
@@ -18,7 +18,7 @@ def register_view(request):
 
 def register_create(request):
     if not request.POST:
-        raise Http404
+        raise Http404()
 
     POST = request.POST
     # Salvando dicionário do POST inteiro

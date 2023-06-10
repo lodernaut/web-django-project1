@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 def add_attr(field, attr_name, attr_new_val):
@@ -64,7 +65,7 @@ class RegisterForm(forms.ModelForm):
                 "class": "register-form-email",
             }),
         label="Email",
-        error_messages={"required": "Password must not be empty"},
+        error_messages={"required": "Email must not be empty"},
     )
 
     class Meta:
@@ -76,3 +77,32 @@ class RegisterForm(forms.ModelForm):
             "email",
             "password",
         ]
+
+    # precisa pegar o valor que vem do campo → 'data' vem os dados cru do formulário sem nenhuma limpeza // cleaned_data vem os dados tratados pelo django, é um dicionário com as chave sendo o nome dos campo → self.cleaned_data.get("password")
+
+    def clean_password(self):
+        data = self.cleaned_data.get("password")
+        # exemplo removendo a palavra 'atenção' de dentro do campo password
+        if "atenção" in data:
+            raise ValidationError(
+                "Não digite %(value)s no campo password.",
+                code="invalid",
+                params={"value": "atenção"}  # para recuperar o value)
+            )
+        return data
+
+    def clean_first_name(self):
+        data = self.cleaned_data.get('first_name')
+
+        if 'John Doe' in data:
+            raise ValidationError(
+                'Não digite %(value)s no campo first name',
+                code='invalid',
+                params={'value': '"John Doe"'}
+            )
+
+        return data
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data
