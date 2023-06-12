@@ -1,6 +1,20 @@
+import re
+
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+
+
+def strong_password(password):
+    # utilizando expressão regular para validar password
+    # positive lookahead
+    regex = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$")
+
+    if not regex.match(password):
+        raise ValidationError(
+            ("""Password must have at least one uppercase letter,
+            one lowercase letter and one number. The length should
+            be at least 8 character."""), code="invalid")
 
 
 def add_attr(field, attr_name, attr_new_val):
@@ -23,18 +37,18 @@ def add_label(field, label_val):
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        add_placeholder(self.fields["first_name"], "Ex.: Chris")
+        add_class(self.fields["first_name"], "register-form-name")
+
+        add_placeholder(self.fields["last_name"], "Ex.: Morris")
+        add_class(self.fields["last_name"], "register-form-name")
+
         add_placeholder(self.fields["username"], "Your username")
         add_class(self.fields["username"], "register-form-username")
         add_label(self.fields["username"], "Usuário")
 
         add_placeholder(self.fields["email"], "Enter a valid email address")
         add_class(self.fields["email"], "register-form-email")
-
-        add_placeholder(self.fields["first_name"], "Ex.: Chris")
-        add_class(self.fields["first_name"], "register-form-name")
-
-        add_placeholder(self.fields["last_name"], "Ex.: Morris")
-        add_class(self.fields["last_name"], "register-form-name")
 
     password = forms.CharField(
         required=True,
@@ -48,6 +62,7 @@ class RegisterForm(forms.ModelForm):
             """Password must have at least one uppercase letter,
             one lowercase letter and one number. The length should
             be at least 8 character."""),
+        validators=[strong_password]
     )
     password2 = forms.CharField(
         required=True,
@@ -85,7 +100,7 @@ class RegisterForm(forms.ModelForm):
         # exemplo removendo a palavra 'atenção' de dentro do campo password
         if "atenção" in data:
             raise ValidationError(
-                "Não digite %(value)s no campo password.",
+                "Não digite '%(value)s' no campo password.",
                 code="invalid",
                 params={"value": "atenção"}  # para recuperar o value)
             )
@@ -94,15 +109,29 @@ class RegisterForm(forms.ModelForm):
     def clean_first_name(self):
         data = self.cleaned_data.get('first_name')
 
-        if 'John Doe' in data:
+        if "John Doe" in data:
             raise ValidationError(
-                'Não digite %(value)s no campo first name',
-                code='invalid',
-                params={'value': '"John Doe"'}
+                "Não digite '%(value)s' no campo first name",
+                code="invalid",
+                params={"value": "John Doe"}
             )
 
         return data
 
     def clean(self):
         cleaned_data = super().clean()
-        password = cleaned_data
+        password = cleaned_data.get("password")
+        password2 = cleaned_data.get("password2")
+
+        if password != password2:
+            # atrelando o erro a chave password
+            password_confirmation_error = ValidationError(  # envolvendo o erro em ValidationError
+                "The passwords do not match.",
+                code="invalid")
+            raise ValidationError({
+                # atrelando o erro a chave password usando variável
+                "password": password_confirmation_error,
+
+                "password2": [  # atrelando erro a uma lista
+                    "The passwords do not match.", "Another error"
+                ]})
