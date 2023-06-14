@@ -45,18 +45,41 @@ class RegisterForm(forms.ModelForm):
 
         add_placeholder(self.fields["username"], "Your username")
         add_class(self.fields["username"], "register-form-username")
-        add_label(self.fields["username"], "Usuário")
+        add_label(self.fields["username"], "Username")
 
         add_placeholder(self.fields["email"], "Enter a valid email address")
         add_class(self.fields["email"], "register-form-email")
+        add_label(self.fields["email"], "Email")
 
+        add_placeholder(self.fields["password"], "Set a password")
+        add_class(self.fields["password"], "register-form-password")
+        add_label(self.fields["password"], "Password")
+
+        add_placeholder(self.fields["password2"], "Repeat your password")
+        add_class(self.fields["password2"], "register-form-password")
+        add_label(self.fields["password2"], "Repeat Password")
+    # sobrescrevendo
+    first_name = forms.CharField(
+        error_messages={"required": "Write your first name"}
+    )
+    last_name = forms.CharField(
+        error_messages={"required": "Write your last name"}
+    )
+    username = forms.CharField(
+        error_messages={"required": "This field must not be empty"},
+        help_text=("""The username must contain letters, numbers, or @ _ .
+        The length must be between 4 and 150 characters."""),
+        min_length=4, max_length=150,
+    )
+    email = forms.EmailField(
+        required=True,
+        widget=forms.TextInput(),
+        error_messages={"required": "Email must not be empty"},
+        help_text=("The email must be valid."),
+    )
     password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(
-            attrs={
-                "class": "register-form-password",
-                "placeholder": "Set a password"}),
-        label="Password",
+        widget=forms.PasswordInput(),
         error_messages={"required": "Password must not be empty"},
         help_text=(
             """Password must have at least one uppercase letter,
@@ -66,21 +89,8 @@ class RegisterForm(forms.ModelForm):
     )
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(
-            attrs={
-                "class": "register-form-password",
-                "placeholder": "Repeat your password"}),
-        label="Repeat Password",
-        error_messages={"required": "Password must not be empty"},
-    )
-    email = forms.CharField(
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                "class": "register-form-email",
-            }),
-        label="Email",
-        error_messages={"required": "Email must not be empty"},
+        widget=forms.PasswordInput(),
+        error_messages={"required": "Please, repeat your password"},
     )
 
     class Meta:
@@ -94,29 +104,6 @@ class RegisterForm(forms.ModelForm):
         ]
 
     # precisa pegar o valor que vem do campo → 'data' vem os dados cru do formulário sem nenhuma limpeza // cleaned_data vem os dados tratados pelo django, é um dicionário com as chave sendo o nome dos campo → self.cleaned_data.get("password")
-
-    def clean_password(self):
-        data = self.cleaned_data.get("password")
-        # exemplo removendo a palavra 'atenção' de dentro do campo password
-        if "atenção" in data:
-            raise ValidationError(
-                "Não digite '%(value)s' no campo password.",
-                code="invalid",
-                params={"value": "atenção"}  # para recuperar o value)
-            )
-        return data
-
-    def clean_first_name(self):
-        data = self.cleaned_data.get('first_name')
-
-        if "John Doe" in data:
-            raise ValidationError(
-                "Não digite '%(value)s' no campo first name",
-                code="invalid",
-                params={"value": "John Doe"}
-            )
-
-        return data
 
     def clean(self):
         cleaned_data = super().clean()
