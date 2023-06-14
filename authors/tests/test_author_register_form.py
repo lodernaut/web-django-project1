@@ -78,18 +78,26 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         # postando os dados que são iguais a 'self.form_data'
         # quando faz um post está chamando a url create
         response = self.client.post(url, data=self.form_data, follow=True)
-        # self.assertIn(message, response.content.decode("utf-8"))
-
+        self.assertIn(message, response.content.decode("utf-8"))
         # pegando somente erros
         self.assertIn(message, response.context["form"].errors.get(field))
 
-    @parameterized.expand([
-        ("username", "This field must not be empty"),
-    ])
-    def test_username_invalid_less_than_4_characters(self, field, message):
-        self.form_data[field] = ""
-        url = reverse("authors:register")
-        # postando os dados que são iguais a 'self.form_data'
-        # quando faz um post está chamando a url create
+    def test_username_fields_min_length_should_be_4(self):
+        self.form_data["username"] = "Joh"
+        url = reverse("authors:create")
         response = self.client.post(url, data=self.form_data, follow=True)
-        # self.assertIn(message, response.content.decode("utf-8"))
+
+        message = "Make sure the username is at least 4 characters long"
+
+        self.assertIn(message, response.content.decode("utf-8"))
+        self.assertIn(message, response.context["form"].errors.get("username"))
+
+    def test_username_fields_max_length_should_be_150(self):
+        self.form_data["username"] = "x" * 151
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        message = "Make sure the username has a maximum of 150 characters"
+
+        self.assertIn(message, response.content.decode("utf-8"))
+        self.assertIn(message, response.context["form"].errors.get("username"))
