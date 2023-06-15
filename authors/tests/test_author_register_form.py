@@ -6,6 +6,7 @@ from django.urls import reverse
 from parameterized import parameterized
 
 from authors.forms import RegisterForm
+from utils.pagination import make_pagination
 
 # Diferença de unittest e teste de integração.
 
@@ -101,3 +102,55 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertIn(message, response.content.decode("utf-8"))
         self.assertIn(message, response.context["form"].errors.get("username"))
+
+    def test_password_field_have_lower_upper_case_letter_and_numbers(self):
+        self.form_data["password"] = "abc123"
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        message = ("""Password must have at least one uppercase letter,
+            one lowercase letter and one number. The length should be
+            at least 8 character.""")
+
+        # self.assertIn(message, response.content.decode("utf-8"))
+        self.assertIn(message, response.context["form"].errors.get("password"))
+
+    def test_password_correct(self):
+        self.form_data["password"] = "@Abc12378"
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        message = ("""Password must have at least one uppercase letter,
+            one lowercase letter and one number. The length should be
+            at least 8 character.""")
+
+        self.assertNotIn(message, response.content.decode("utf-8"))
+        self.assertNotIn(
+            message, response.context["form"].errors.get("password"))
+
+    def test_password_and_password_confirmation_are_equal(self):
+        self.form_data["password"] = "@Abc12378"
+        self.form_data["password2"] = "@Abc12379"
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        message = ("The passwords do not match.")
+
+        self.assertIn(message, response.content.decode("utf-8"))
+        self.assertIn(
+            message, response.context["form"].errors.get("password"))
+
+    def test_password_and_password2_equal(self):
+        self.form_data["password"] = "@Abc12378"
+        self.form_data["password2"] = "@Abc12378"
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+        message = ("The passwords do not match.")
+
+        self.assertNotIn(message, response.content.decode("utf-8"))
+
+    def test_send_get_requests_to_registration_create_view_returns_404(self):
+        url = reverse("authors:create")
+        response = self.client.get(url, data=self.form_data, follow=True)
+
+        self.assertEqual(response.status_code, 404)
