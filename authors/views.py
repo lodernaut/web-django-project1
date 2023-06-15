@@ -27,7 +27,10 @@ def register_create(request):
     form = RegisterForm(POST)
 
     if form.is_valid():  # se o formulário é valido
-        form.save()  # salvando dados do formulário na base de dados
+        user = form.save(commit=False)
+        # configurando password antes de salvar na base de dados
+        user.set_password(user.password)
+        user.save()
         messages.success(request, "Your user is created, please log in.")
 
         # deletando/limpando chave do dicionário

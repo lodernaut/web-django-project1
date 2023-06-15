@@ -107,9 +107,18 @@ class RegisterForm(forms.ModelForm):
             "password",
         ]
 
-    # precisa pegar o valor que vem do campo → 'data' vem os dados cru do formulário sem nenhuma limpeza // cleaned_data vem os dados tratados pelo django, é um dicionário com as chave sendo o nome dos campo → self.cleaned_data.get("password")
+    def clean_email(self):
+        email = self.cleaned_data.get("email", "")
+        # check se já existe na base de dados // capturando usuário que tem email=email
+        exists = User.objects.filter(email=email).exists()
 
-    def clean(self):
+        if exists:
+            raise ValidationError(
+                "User email is already in use", code="invalid")
+
+        return email
+
+    def clean(self):  # precisa pegar o valor que vem do campo → 'data' vem os dados cru do formulário sem nenhuma limpeza // cleaned_data vem os dados tratados pelo django, é um dicionário com as chave sendo o nome dos campo → self.cleaned_data.get("password")
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password2 = cleaned_data.get("password2")

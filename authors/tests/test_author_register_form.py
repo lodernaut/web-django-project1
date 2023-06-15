@@ -6,7 +6,6 @@ from django.urls import reverse
 from parameterized import parameterized
 
 from authors.forms import RegisterForm
-from utils.pagination import make_pagination
 
 # Diferença de unittest e teste de integração.
 
@@ -58,7 +57,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         self.form_data = {
             "first_name": "John",
             "last_name": "Doe",
-            "username": "johndoe",
+            "username": "johndoe",  # cspell:disable-line
             "email": "johndoe@example.com",
             "password": "StrongPassword1",
             "password2": "StrongPassword1"
@@ -154,3 +153,14 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.get(url, data=self.form_data, follow=True)
 
         self.assertEqual(response.status_code, 404)
+
+    def test_email_field_must_be_unique(self):
+        url = reverse("authors:create")
+        self.client.post(url, data=self.form_data, follow=True)  # 1 user
+        response = self.client.post(
+            url, data=self.form_data,
+            follow=True)  # 2 user, reutilizando email
+
+        message = "User email is already in use"
+        self.assertIn(message, response.content.decode("utf-8"))
+        self.assertIn(message, response.context["form"].errors.get("email"))
