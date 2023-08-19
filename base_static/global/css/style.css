@@ -427,6 +427,19 @@ H6 {
     color: var(--color-white);
 }
 
+.inline-form {
+    display: inline;
+}
+
+.plaintext-button {
+    display: inline;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-primary);
+    font-size: 1.6rem;
+}
+
 /* me/* Messages */
 .messages-container {
     display: flex;
@@ -479,13 +492,6 @@ color: var(--color-debug-dark);
 
 }
 
-@media (max-width: 600px) { /* Para todo dispositivo que for menor que 600px */
-    .main-content-list,
-    .form-content-grid { 
-        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr)); /* recebe um minmax de 100% ou 1fr */
-    }
-}
-
 .register-form-password,
 .register-form-email,
 .register-form-username,
@@ -493,3 +499,20 @@ color: var(--color-debug-dark);
     padding-left: 5px;
 }
 
+@media (max-width: 600px) { /* Para todo dispositivo que for menor que 600px */
+    .main-content-list,
+    .form-content-grid { 
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr)); /* recebe um minmax de 100% ou 1fr */
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .search-container {
+float: none;
+    } .search-container input[type=search] {
+        width: 100%;
+    } .search-container input[type=text], .search-container button {
+        width: 100%;
+        margin-top: 0;
+    }
+}

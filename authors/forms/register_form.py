@@ -40,7 +40,7 @@ class RegisterForm(forms.ModelForm):
     username = forms.CharField(
         error_messages={
             "required": "This field must not be empty",
-            "min_length": "Make sure the username is at least 4 characters long",
+            "min_length": "Make sure the username is at least 4 characters long",  # noqa: E501
             "max_length": "Make sure the username has a maximum of 150 characters",  # noqa: E501
         },
         help_text=("""The username must contain letters, numbers, or @ _ .
@@ -103,7 +103,6 @@ class RegisterForm(forms.ModelForm):
             raise ValidationError({
                 # atrelando o erro a chave password usando variável
                 "password": password_confirmation_error,
-
                 "password2": [  # atrelando erro a uma lista
                     "The passwords do not match.", "Another error"
                 ]})

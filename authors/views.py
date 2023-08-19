@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -38,7 +39,7 @@ def register_create(request):
 
         # deletando/limpando chave do dicionário
         del (request.session["register_form_data"])
-
+        return redirect(reverse("authors:login"))
     return redirect("authors:register")
 
 
@@ -62,11 +63,26 @@ def login_create(request):
             password=form.cleaned_data.get("password", ""),)
 
         if authenticated_user is not None:
-            login(request, authenticated_user)
             messages.success(request, "Your are logged in.")
-
+            login(request, authenticated_user)
         else:
             messages.error(request, "Invalid credentials.")
     else:
         messages.error(request, "Invalid username or password.")
     return redirect(login_url)
+
+
+# 1º Usuário estando logado entra nesse campo ↓ ↓
+@login_required(login_url="authors:login", redirect_field_name="next")
+def logout_view(request):
+    if not request.POST:  # 2º precisa se um POST (form) para entrar
+        return redirect(reverse("authors:login"))
+
+    # 3º Usuário que visualizando o form necessita se o usuário logado (usuário logado vai se conferido,)
+    if request.POST.get("username") != request.user.username:
+        print("invalid user name", request.POST, request.user)
+        return redirect(reverse("authors:login"))
+
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect(reverse("authors:login"))
