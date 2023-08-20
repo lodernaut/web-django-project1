@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from time import sleep
 
@@ -16,7 +17,8 @@ def make_chrome_browser(*options):
     if options is not None:
         for option in options:
             chrome_options.add_argument(option)
-
+    if os.environ.get("SELENIUM_HEADLESS") == "1":
+        chrome_options.add_argument("--headless")
     # opção para não encerrar navegador automaticamente
     chrome_options.add_experimental_option("detach", True)
 
@@ -27,7 +29,7 @@ def make_chrome_browser(*options):
 
 # --headless
 if __name__ == "__main__":
-    browser = make_chrome_browser("--headless")
+    browser = make_chrome_browser()
     browser.get("https://www.google.com/")
     sleep(5)
     browser.quit()
