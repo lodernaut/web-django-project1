@@ -1,26 +1,26 @@
 {% comment %} if do paginator (se paginator possui outras páginas alem dessa, se houve exibir opções de pág) {% endcomment %}
 {% if recipes.has_other_pages %}
 
-    <div class="container pagination">
+    <nav role="navigation" aria-label="Pagination" class="container pagination">
 
         <div class="pagination-content">
 
-            {% comment %} Se primeira pág não estiver fora do range {% endcomment %}
+            {% comment %} Se primeira pág estiver fora do range {% endcomment %}
             {% if pagination_range.first_page_out_of_range %}
-                <a href="?page=1{{ additional_url_query }}" class="page-link page-item">
+                <a aria-label="Go to page 1" href="?page=1{{ additional_url_query }}" class="page-link page-item">
                     1
                 </a>
                 <span class="page-item">...</span>
             {% endif %}
 
             {% for page in pagination_range.pagination %}
-
+                {% comment %} pág atual igual pág atual {% endcomment %}
                 {% if pagination_range.current_page == page %}
-                    <a href="?page={{ page }}{{ additional_url_query }}" class="page-link page-item page-current">
+                    <a aria-label="Current page {{ page }}" aria-current="True" href="?page={{ page }}{{ additional_url_query }}" class="page-link page-item page-current">
                         {{ page }}
                     </a>
                 {% else %}
-                    <a href="?page={{ page }}{{ additional_url_query }}" class="page-link page-item">
+                    <a aria-label="Go to page {{ page }}" href="?page={{ page }}{{ additional_url_query }}" class="page-link page-item">
                         {{ page }}
                     </a>
                 {% endif %}
@@ -29,13 +29,13 @@
 
             {% if pagination_range.last_page_out_of_range %}
                 <span class="page-item">...</span>
-                <a href="?page={{ pagination_range.total_pages }}{{ additional_url_query }}" class="page-link page-item">
+                <a aria-label="Go to page {{ pagination_range.total_pages }}" href="?page={{ pagination_range.total_pages }}{{ additional_url_query }}" class="page-link page-item">
                     {{ pagination_range.total_pages }}
                 </a>
             {% endif %}
 
         </div>
 
-    </div>
+    </nav>
 
 {% endif %}

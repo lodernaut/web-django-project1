@@ -1,5 +1,5 @@
 <div class="main-content container">
-    <form action="{{ form_action }}" method="POST">{% comment %} method="POST" para registrar usuário, diferente do GET está enviado os dados dos campos do formulário no corpo da requisição {% endcomment %}
+    <form class="main-form" action="{{ form_action }}" method="POST">{% comment %} method="POST" para registrar usuário, diferente do GET está enviado os dados dos campos do formulário no corpo da requisição {% endcomment %}
         {% csrf_token %}
         
         <div class="form-content form-content-grid">
