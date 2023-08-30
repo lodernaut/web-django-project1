@@ -80,6 +80,7 @@ def logout_view(request):
 
     # 3º Usuário que visualizando o form necessita se o usuário logado (usuário logado vai se conferido,)
     if request.POST.get("username") != request.user.username:
+        messages.error(request, "Invalid logout user")
         print("invalid user name", request.POST, request.user)
         return redirect(reverse("authors:login"))
 
