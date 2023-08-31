@@ -69,7 +69,7 @@ def login_create(request):
             messages.error(request, "Invalid credentials.")
     else:
         messages.error(request, "Invalid username or password.")
-    return redirect(login_url)
+    return redirect(reverse("authors:dashboard"))
 
 
 # 1º Usuário estando logado entra nesse campo ↓ ↓
@@ -87,3 +87,8 @@ def logout_view(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
     return redirect(reverse("authors:login"))
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def dashboard(request):
+    return render(request, "authors/pages/dashboard.html")
