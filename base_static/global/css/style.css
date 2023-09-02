@@ -497,6 +497,30 @@ color: var(--color-debug-dark);
     margin:  1rem 0;
 }
 
+.authors-dashboard-container {
+    max-width: 64rem;
+    text-align: left;
+    margin: 0 auto;
+    /* padding: var(--spacing-gutter-medium); */
+}
+
+.authors-dashboard-container h3,
+.authors-dashboard-container ul,
+.authors-dashboard-container p {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.authors-dashboard-container ul {
+    padding-left: 0.3rem;
+}
+
+.authors-dashboard-container ul li a {
+    display: inline-block;
+    padding-bottom: 0.3rem ;
+    text-decoration: none;
+}
+
 .register-form-password,
 .register-form-email,
 .register-form-username,

@@ -22,6 +22,9 @@ class RecipeAdmin(admin.ModelAdmin):
     # list_per_page = 5  # Caso queira controlar quantidade de  visível por pág
     list_editable = "is_published",
     # ordering = "id",  # se quiser ordenar
+    prepopulated_fields = {
+        "slug": ("title",),
+    }
 
 
 admin.site.register(Category, CategoryAdmin)  # 1º model, 2º category

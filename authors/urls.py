@@ -11,4 +11,8 @@ urlpatterns = [
     path("login/create/", views.login_create, name="login_create"),
     path("logout/", views.logout_view, name="logout"),
     path("dashboard/", views.dashboard, name="dashboard"),
+    path(
+        # vai está na recipe, da recipe recebe um id, do id faz um edit
+        "dashboard/recipe/<int:id>/edit/",
+        views.dashboard_recipe_edit, name="dashboard-recipe-edit"),
 ]

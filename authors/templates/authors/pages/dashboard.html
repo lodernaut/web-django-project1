@@ -8,10 +8,29 @@
         <h2>
             Dashboard ({{user}})
         </h2>   
+        {% include "global/partials/messages.html" %}
         {% include "authors/partials/login_messages.html" %}
+
+        <div class="authors-dashboard-container">
+            <h3>Your recipes</h3>
+            <ul>
+                {% for recipe in recipes %}
+                    <li> 
+                        <span class="author-recipes-span">
+                            <a href="{% url 'authors:dashboard-recipe-edit' recipe.id%}">{{ recipe.title}}</a> 
+                        </span>
+                    </li> 
+                {% empty %}
+                    <li>
+                        <p>You have no registered recipes</p>
+                    </li>           
+                {% endfor %}
+            </ul>
+        </div>
+
     </div>
 
-    {% include "global/partials/messages.html" %}
+    
 
     {% include "global/partials/form.html" %}
 

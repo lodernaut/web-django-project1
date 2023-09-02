@@ -5,6 +5,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from recipes.models import Recipe
+
 from .forms import LoginForm, RegisterForm
 
 
@@ -56,7 +58,6 @@ def login_create(request):
         raise Http404()  # se não for POST levanta 404
 
     form = LoginForm(request.POST)
-    login_url = reverse("authors:login")
     if form.is_valid():  # formulário válido não quer dizer que os dados que estão nesse formulário são válidos mas sim que usuário cumpriu com as regras do formulário.
         authenticated_user = authenticate(
             username=form.cleaned_data.get("username", ""),
@@ -91,4 +92,19 @@ def logout_view(request):
 
 @login_required(login_url="authors:login", redirect_field_name="next")
 def dashboard(request):
-    return render(request, "authors/pages/dashboard.html")
+    recipes = Recipe.objects.filter(
+        is_published=False, author=request.user)
+    return render(request, "authors/pages/dashboard.html", context={
+        "recipes": recipes,
+    })
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def dashboard_recipe_edit(request, id):
+    recipe = Recipe.objects.filter(
+        is_published=False, author=request.user, pk=id)
+    if not recipe:
+        raise Http404()
+    return render(request, "authors/pages/dashboard_recipe.html", context={
+        "recipes": recipe,
+    })
