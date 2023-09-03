@@ -355,6 +355,10 @@ H6 {
 .center {
     text-align: center;
 }
+
+.left {
+    text-align: left;
+}
 /* margin eixo x */
 .m-x {
     margin: 0 var(--spacing-gutter-medium);
@@ -430,6 +434,7 @@ H6 {
 .inline-form {
     display: inline;
 }
+
 
 .plaintext-button {
     display: inline;
@@ -526,6 +531,17 @@ color: var(--color-debug-dark);
 .register-form-username,
 .register-form-name {
     padding-left: 5px;
+}
+
+.span-2 {
+    grid-column: span 2;
+}
+
+.edit-form-preparation-step {
+    width: 100%; /* 100% do elemento pai */
+    pad: 1rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-primary-dark);
 }
 
 @media (max-width: 600px) { /* Para todo dispositivo que for menor que 600px */

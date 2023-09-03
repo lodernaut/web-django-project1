@@ -4,7 +4,7 @@
         
         <div class="form-content form-content-grid">
             {% for field in form %}
-                <div class="form-group">
+                <div class="form-group {{ field.field.widget.attrs.class }}">
                     {% comment %} label do html requer for, django facilita isso {% endcomment %}
                     <label for="{{ field.id_for_label }}">{{ field.label }}:</label> {% comment %}  id_for_label ← id que o django irá gerar automaticamente para o for do label e o campo abaixo {{ field }} // {{ field.label }} texto do labal{% endcomment %}
                     {{ field }}

@@ -110,7 +110,6 @@ def dashboard_recipe_edit(request, id):
         request.POST or None,  # passando post para dentro do form se estiver vazio passa None
         instance=recipe,
     )
-    print(recipe.__dict__)
     return render(request, "authors/pages/dashboard_recipe.html", context={
         "form": form,
     })
