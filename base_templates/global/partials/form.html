@@ -16,6 +16,13 @@
                     {% comment %} se existir erros exibir uma ul com a classe error_list  {% endcomment %}
                     {{ field.errors }}
                 </div>
+
+                {% if field.name == "cover" and field.value.url %}
+                    <div class="span-2 edit-form-cover">
+                        <img src="{{ field.value.url }}" alt="cover for your recipe '{{ recipe.title }}'">
+                    </div>
+                {% endif %}
+
             {% endfor %}
         </div>
         {% if form.errors %}

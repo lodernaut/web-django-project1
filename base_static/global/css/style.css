@@ -544,6 +544,18 @@ color: var(--color-debug-dark);
     border: 1px solid var(--color-primary-dark);
 }
 
+.edit-form-cover img {
+    max-width: 100%;
+}
+
+
+.dashboard-recipe-user-edit {
+    font-size: 3rem;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 1rem;
+}
+
 @media (max-width: 600px) { /* Para todo dispositivo que for menor que 600px */
     .main-content-list,
     .form-content-grid { 

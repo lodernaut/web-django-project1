@@ -3,11 +3,15 @@
 {% block title %}Your Recipes{% endblock title %}
 
 {% block content %}
-
     <div class="center main-content container">
-        <h2>
-            Recipes
-        </h2>   
+        <div class="recipe-title-container dashboard-recipe-user-edit">
+            <h2 class="recipe-title">
+                <a href="{% url 'authors:dashboard' %}">
+                    Recipes
+                </a>
+            </h2>
+        </div>
+
         {% include "global/partials/messages.html" %}
         {% include "authors/partials/login_messages.html" %}
         <div class="left">

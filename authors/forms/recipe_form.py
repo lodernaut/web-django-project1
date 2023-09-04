@@ -23,3 +23,20 @@ class AuthorRecipeForm(forms.ModelForm):
             "title", "description", "preparation_time",
             "preparation_time_unit", "servings", "servings_unit",
             "preparation_step", "cover")
+        widgets = {
+            "cover": forms.FileInput(),  # file'arquivo' comum
+
+            "servings_unit": forms.Select(  # criando campo de select
+                choices=(  # choice é uma tupla de tuplas
+                    ("Porções", "Porções"),  # Value:Display
+                    ("Fatias", "Fatias"),
+                    ("Pessoas", "Pessoas"),
+                    ("Copo", "Copo"),
+                )),
+
+            "preparation_time_unit": forms.Select(  # criando campo de select
+                choices=(
+                    ("Minuto(s)", "Minuto(s)"),  # Value:Display
+                    ("Hora(s)", "Hora(s)"),
+                ))
+        }
