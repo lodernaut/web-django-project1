@@ -1,1 +1,1 @@
-x = " You are logged in as jcarvalho, 'click here if you want to exit' or 'back to recipes'. "
+x = "You are logged in as jcarvalho. Click here to return to the recipes or here to exit."
