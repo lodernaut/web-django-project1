@@ -108,8 +108,20 @@ def dashboard_recipe_edit(request, id):
         raise Http404()
     form = AuthorRecipeForm(
         request.POST or None,  # passando post para dentro do form se estiver vazio passa None
+        files=request.FILES or None,
         instance=recipe,
     )
+    if form.is_valid():
+        # tentando salvar o form válido, 'quebra se estiver faltando dados'
+        recipe = form.save(commit=False)
+        recipe.author = request.user  # garantindo que author de recipe é request.user
+        recipe.preparation_step_is_html = False
+        recipe.is_published = False
+        recipe.save()
+
+        messages.success(request, "Your recipe has been successfully saved.")
+        return redirect(reverse("authors:dashboard"))
+
     return render(request, "authors/pages/dashboard_recipe.html", context={
         "form": form,
     })
