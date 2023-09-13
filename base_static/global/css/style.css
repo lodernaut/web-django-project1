@@ -494,7 +494,6 @@ color: var(--color-info-dark);
 border: 1px solid var(--color-debug-dark);
 background: var(--color-debug-light);
 color: var(--color-debug-dark);
-
 }
 
 /* Authors */
@@ -525,7 +524,7 @@ color: var(--color-debug-dark);
     padding-bottom: 0.3rem ;
     text-decoration: none;
 }
-
+/* register form */
 .register-form-password,
 .register-form-email,
 .register-form-username,
@@ -548,12 +547,32 @@ color: var(--color-debug-dark);
     max-width: 100%;
 }
 
-
 .dashboard-recipe-user-edit {
     font-size: 3rem;
     padding: 0;
     margin: 0;
     padding-bottom: 1rem;
+}
+
+.dashboard-add-recipe a {
+    text-decoration: none;
+    color: var(--color-primary);
+}
+
+/* recipe_form.py */
+.edit-form-title,
+.edit-form-description,
+.edit-form-preparation-time,
+.edit-form-preparation-time-unit,
+.preparation_time_unit,
+.edit-form-servings,
+.edit-form-servings-unit,
+.edit-form-category {
+    padding-left: 5px;
+}
+
+.edit-form-preparation-step textarea {
+    padding-left: 5px;
 }
 
 @media (max-width: 600px) { /* Para todo dispositivo que for menor que 600px */

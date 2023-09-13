@@ -26,12 +26,13 @@
                     </li>           
                 {% endfor %}
             </ul>
+            
+            <div class="dashboard-add-recipe">
+                <a href="{% url 'authors:dashboard-new-recipe' %}"><h3>add new recipes</h3></a>
+            </div>
         </div>
 
+
     </div>
-
-    
-
-    {% include "global/partials/form.html" %}
 
 {% endblock content %}

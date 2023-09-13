@@ -125,3 +125,42 @@ def dashboard_recipe_edit(request, id):
     return render(request, "authors/pages/dashboard_recipe.html", context={
         "form": form,
     })
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def dashboard_new_recipe_view(request):
+    register_form_data = request.session.get(
+        "register_form_data", None)
+    form = AuthorRecipeForm(
+        register_form_data,
+        files=request.FILES or None,
+    )
+
+    return render(
+        request, "authors/pages/dashboard_add_new_recipe.html", context={
+            "form": form,
+            "form_action": reverse("authors:dashboard-new-recipe-create"),
+        })
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def dashboard_new_recipe_create(request):
+    if not request.POST:
+        raise Http404()
+
+    POST = request.POST
+    request.session["register_form_data"] = POST
+    form = AuthorRecipeForm(POST)
+
+    if form.is_valid():
+        recipe = form.save(commit=False)
+        recipe.author = request.user
+        recipe.preparation_step_is_html = False
+        recipe.is_published = False
+        recipe.save()
+        messages.success(request, "Your recipe has been saved")
+        del (request.session["register_form_data"])
+        return redirect(reverse("authors:dashboard"))
+    messages.error(request, "houve algum erro")
+
+    return redirect(reverse("authors:dashboard-new-recipe"))
