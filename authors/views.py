@@ -157,6 +157,7 @@ def dashboard_new_recipe_create(request):
         recipe.author = request.user
         recipe.preparation_step_is_html = False
         recipe.is_published = False
+        recipe.slug = recipe.title
         recipe.save()
         messages.success(request, "Your recipe has been saved")
         del (request.session["register_form_data"])
