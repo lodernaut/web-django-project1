@@ -1,0 +1,52 @@
+<!-- html com caixa de confirmação -->
+{% extends "global/base.html" %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block content %}
+
+<div class="center main-content container">
+    <h2>
+        Dashboard ({{user}})
+    </h2>
+    {% include "global/partials/messages.html" %}
+    {% include "authors/partials/login_messages.html" %}
+
+    <div class="authors-dashboard-container">
+        <h3>Your recipes</h3>
+        <ul>
+            {% for recipe in recipes %}
+            <li>
+                <span class="author-recipes-span">
+                    <a href="{% url 'authors:dashboard-recipe-edit' recipe.id%}">{{ recipe.title}}</a>
+                </span>
+                <form action="{% url " authors:dashboard-recipe-delete" recipe.id %}" class="inline-form" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="plaintext-button" onclick="return confirmDelete()">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                    <script>
+                        function confirmDelete() {
+                            return confirm('Tem certeza de que deseja excluir esta receita?');
+                        }
+                    </script>
+                </form>
+            </li>
+
+            {% empty %}
+            <li>
+                <p>You have no registered recipes</p>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="dashboard-add-recipe">
+            <a href="{% url 'authors:dashboard-new-recipe' %}">
+                <h3>add new recipes</h3>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

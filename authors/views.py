@@ -165,3 +165,15 @@ def dashboard_new_recipe_create(request):
     messages.error(request, "houve algum erro")
 
     return redirect(reverse("authors:dashboard-new-recipe"))
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def dashboard_recipe_delete(request, id):
+    recipe = Recipe.objects.get(
+        # check se receita está publicada, author e id
+        is_published=False, author=request.user, pk=id)
+    if not recipe:
+        raise Http404()
+    recipe.delete()
+    messages.info(request, "Excluded recipe.")
+    return redirect(reverse("authors:dashboard"))

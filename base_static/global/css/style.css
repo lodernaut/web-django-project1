@@ -575,6 +575,11 @@ color: var(--color-debug-dark);
     padding-left: 5px;
 }
 
+.fa-trash-can {
+    font-size: 1.3rem;
+    margin-left: 0.5rem;
+}
+
 @media (max-width: 600px) { /* Para todo dispositivo que for menor que 600px */
     .main-content-list,
     .form-content-grid { 
