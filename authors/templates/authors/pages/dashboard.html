@@ -19,8 +19,9 @@
                         <span class="author-recipes-span">
                             <a href="{% url 'authors:dashboard-recipe-edit' recipe.id%}">{{ recipe.title}}</a> 
                         </span>
-                        <form action="{% url "authors:dashboard-recipe-delete" recipe.id %}" class="inline-form form-delete" method="POST">
+                        <form action="{% url "authors:dashboard-recipe-delete" %}" class="inline-form form-delete" method="POST">
                             {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ recipe.id }}">
                             <button type="submit" class="plaintext-button">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
