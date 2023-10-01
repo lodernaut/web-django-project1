@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User  # user do próprio django.
 from django.db import models
-from django.shortcuts import redirect
 from django.urls import reverse
+
+from utils.django_forms import slugify
 
 # Create your models here.
 
@@ -53,3 +54,8 @@ class Recipe(models.Model):  # herdando de models.Model
     def get_absolute_url(self):
         return reverse(
             "recipes:recipe", kwargs={"id": self.id})  # type: ignore
+
+    def save(self, *args, **kwargs):
+        self.slug = f"{slugify(self.title)}"
+        # retornando o método da superclasse(sobrescrito)
+        return super().save(*args, **kwargs)
