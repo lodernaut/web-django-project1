@@ -1,6 +1,7 @@
 import re
 
 from django.core.exceptions import ValidationError
+from unidecode import unidecode
 
 
 def strong_password(password):
@@ -30,3 +31,14 @@ def add_class(field, class_val):
 
 def add_label(field, label_val):
     field.label = label_val
+
+
+def slugify(text):
+    text = unidecode(text)  # remove acentos
+    text = text.lower()  # transforma o texto em minúsculas
+    text = re.sub(r'[^\w\s-]', '', text)  # remove caracteres não alfanuméricos
+    # substitui espaços ou sublinhados por hífens
+    text = re.sub(r'[\s_-]+', '-', text)
+    # remove hífens no início ou no final da string
+    text = re.sub(r'^-+|-+$', '', text)
+    return text

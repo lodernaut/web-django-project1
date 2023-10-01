@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User  # user do próprio django.
 from django.db import models
+from django.shortcuts import redirect
+from django.urls import reverse
 
 # Create your models here.
 
@@ -47,3 +49,7 @@ class Recipe(models.Model):  # herdando de models.Model
     # magic method
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse(
+            "recipes:recipe", kwargs={"id": self.id})  # type: ignore

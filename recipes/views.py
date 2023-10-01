@@ -44,6 +44,10 @@ def recipe(request, id):
     recipe = get_object_or_404(
         Recipe.objects.filter(pk=id, is_published=True,))
 
+    print("x"*10)
+    print(recipe.get_absolute_url())
+    print("x"*10)
+
     return render(request, "recipes/pages/recipe-view.html", context={
         "recipe": recipe,
         "is_detail_page": True,
