@@ -47,5 +47,5 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         elements = self.browser.find_elements(
             By.XPATH, "//h2[@class='recipe-title']")  # puxando elementos da pág
         # viewing 3 recipe on page 2
+        # self.sleep(60)
         self.assertEqual(len(elements), 3)
-        self.sleep(5)

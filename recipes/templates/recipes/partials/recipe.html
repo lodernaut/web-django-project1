@@ -7,6 +7,14 @@
         </div>
     {% endif %}
 
+    <div class="recipe-title-container">
+        <h2 class="recipe-title">
+            <a href="{{ recipe.get_absolute_url }}">
+                {{ recipe.title}}
+            </a>
+        </h2>
+    </div>
+
     <div class="recipe-author">
         {% if recipe.author is not None %}     
             <span class="recipe-author-item">

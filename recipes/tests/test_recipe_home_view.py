@@ -39,6 +39,8 @@ class RecipeHomeViewTest(RecipeTestBase):
 
         # Check if one recipe exists
         self.assertIn("Recipe Title", content)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "recipes/pages/home.html")
         self.assertEqual(len(response_context_recipes), 1)
 
     def test_recipe_home_template_not_load_recipes_not_published(self):
