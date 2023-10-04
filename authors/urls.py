@@ -1,6 +1,6 @@
 from django.urls import path
 
-import views
+from authors import views
 
 app_name = "authors"
 
@@ -14,7 +14,7 @@ urlpatterns = [
     path(
         # vai está na recipe, da recipe recebe um id, do id faz um edit
         "dashboard/recipe/<int:id>/edit/",
-        views.dashboard_recipe_edit, name="dashboard-recipe-edit"),
+        views.DashboardRecipe.as_view(), name="dashboard-recipe-edit"),
     path(
         "dashboard/recipe/new/", views.dashboard_new_recipe_view,
         name="dashboard-new-recipe"),
