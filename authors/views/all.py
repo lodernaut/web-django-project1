@@ -6,7 +6,6 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from authors.forms import LoginForm, RegisterForm
-from authors.forms.recipe_form import AuthorRecipeForm
 from recipes.models import Recipe
 
 
@@ -58,7 +57,7 @@ def login_create(request):
         raise Http404()  # se não for POST levanta 404
 
     form = LoginForm(request.POST)
-    if form.is_valid():  # formulário válido não quer dizer que os dados que estão nesse formulário são válidos mas sim que usuário cumpriu com as regras do formulário.
+    if form.is_valid():  # formulário válido não quer dizer que os dados que estão nesse formulário são válidos mas sim que usuário cumpriu com as regras do formulário. # noqa:E501
         authenticated_user = authenticate(
             username=form.cleaned_data.get("username", ""),
             password=form.cleaned_data.get("password", ""),)
@@ -79,7 +78,7 @@ def logout_view(request):
     if not request.POST:  # 2º precisa se um POST (form) para entrar
         return redirect(reverse("authors:login"))
 
-    # 3º Usuário que visualizando o form necessita se o usuário logado (usuário logado vai se conferido,)
+    # 3º Usuário que visualizando o form necessita se o usuário logado (usuário logado vai se conferido,) # noqa:E501
     if request.POST.get("username") != request.user.username:
         messages.error(request, "Invalid logout user")
         print("invalid user name", request.POST, request.user)
@@ -97,73 +96,6 @@ def dashboard(request):
     return render(request, "authors/pages/dashboard.html", context={
         "recipes": recipes,
     })
-
-
-@login_required(login_url="authors:login", redirect_field_name="next")
-def dashboard_recipe_edit(request, id):
-    recipe = Recipe.objects.get(
-        is_published=False, author=request.user, pk=id)
-    if not recipe:
-        raise Http404()
-    form = AuthorRecipeForm(
-        request.POST or None,  # passando post para dentro do form se estiver vazio passa None
-        files=request.FILES or None,
-        instance=recipe,
-    )
-    if form.is_valid():
-        # tentando salvar o form válido, 'quebra se estiver faltando dados'
-        recipe = form.save(commit=False)
-        recipe.author = request.user  # garantindo que author de recipe é request.user
-        recipe.preparation_step_is_html = False
-        recipe.is_published = False
-        recipe.save()
-
-        messages.success(request, "Your recipe has been successfully saved.")
-        return redirect(reverse("authors:dashboard"))
-
-    return render(request, "authors/pages/dashboard_recipe.html", context={
-        "form": form,
-    })
-
-
-@login_required(login_url="authors:login", redirect_field_name="next")
-def dashboard_new_recipe_view(request):
-    register_form_data = request.session.get(
-        "register_form_data", None)
-    form = AuthorRecipeForm(
-        register_form_data,
-        files=request.FILES or None,
-    )
-
-    return render(
-        request, "authors/pages/dashboard_add_new_recipe.html", context={
-            "form": form,
-            "form_action": reverse("authors:dashboard-new-recipe-create"),
-        })
-
-
-@login_required(login_url="authors:login", redirect_field_name="next")
-def dashboard_new_recipe_create(request):
-    if not request.POST:
-        raise Http404()
-
-    POST = request.POST
-    request.session["register_form_data"] = POST
-    form = AuthorRecipeForm(POST)
-
-    if form.is_valid():
-        recipe = form.save(commit=False)
-        recipe.author = request.user
-        recipe.preparation_step_is_html = False
-        recipe.is_published = False
-        recipe.slug = recipe.title
-        recipe.save()
-        messages.success(request, "Your recipe has been saved")
-        del (request.session["register_form_data"])
-        return redirect(reverse("authors:dashboard"))
-    messages.error(request, "houve algum erro")
-
-    return redirect(reverse("authors:dashboard-new-recipe"))
 
 
 @login_required(login_url="authors:login", redirect_field_name="next")
