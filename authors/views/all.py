@@ -96,20 +96,3 @@ def dashboard(request):
     return render(request, "authors/pages/dashboard.html", context={
         "recipes": recipes,
     })
-
-
-@login_required(login_url="authors:login", redirect_field_name="next")
-def dashboard_recipe_delete(request):
-    if not request.POST:
-        raise Http404()
-
-    id = request.POST.get("id")
-
-    recipe = Recipe.objects.get(
-        # check se receita está publicada, author e id
-        is_published=False, author=request.user, pk=id)
-    if not recipe:
-        raise Http404()
-    recipe.delete()
-    messages.info(request, "Excluded recipe.")
-    return redirect(reverse("authors:dashboard"))

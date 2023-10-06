@@ -18,8 +18,7 @@ urlpatterns = [
     path(
         "dashboard/recipe/new/", views.DashboardRecipe.as_view(),
         name="dashboard-new-recipe"),
-
     path(
-        "dashboard/recipe/delete/", views.dashboard_recipe_delete,
+        "dashboard/recipe/delete/", views.DashboardRecipeDelete.as_view(),
         name="dashboard-recipe-delete"),
 ]

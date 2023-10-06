@@ -59,6 +59,15 @@ class DashboardRecipe(View):
         return self.render_recipe(form)
 
 
+@method_decorator(
+    login_required(
+        login_url="authors:login",
+        redirect_field_name="next"), name="dispatch")
 class DashboardRecipeDelete(DashboardRecipe):
-    def post(self, request, id=None):
-        return super().post(request, id)
+    def post(self, *args, **kwargs):
+        recipe = self.get_recipe(self.request.POST.get("id"))
+        if not recipe:
+            raise Http404()
+        recipe.delete()
+        messages.info(self.request, "Excluded recipe.")
+        return redirect(reverse("authors:dashboard"))
