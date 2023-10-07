@@ -1,7 +1,5 @@
-
 import os
 
-from django.db.models.query import QuerySet
 from django.views.generic import ListView
 
 from recipes.models import Recipe
@@ -15,7 +13,7 @@ class RecipeListViewBase(ListView):
     context_object_name = "recipes"
     # CBV já vem com uma paginação pronta.
     # paginate_by = 6
-    ordering = ["-id"]
+    ordering = ["id"]
     # queryset = Recipe.objects.filter(is_published=False).order_by("id")
     template_name = "recipes/pages/home.html"
 
@@ -35,3 +33,7 @@ class RecipeListViewBase(ListView):
         })
 
         return cd
+
+
+class RecipeListViewHome(RecipeListViewBase):
+    template_name = "recipes/pages/home.html"

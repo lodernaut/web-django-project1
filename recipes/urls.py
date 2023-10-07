@@ -8,7 +8,7 @@ app_name = "recipes"
 # http Request <- return http Response
 urlpatterns = [
     # domínio/recipes  → # home
-    path("", views.RecipeListViewBase.as_view(), name="home"),
+    path("", views.RecipeListViewHome.as_view(), name="home"),
     # passando paramento <id> → para → views.recipe
     path("recipes/search/", views.search, name="search"),
     path(
