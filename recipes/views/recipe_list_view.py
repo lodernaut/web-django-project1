@@ -33,13 +33,30 @@ class RecipeListViewBase(ListView):
             "recipes": page_object,
             "pagination_range": pagination_range
         })
+        return cd
 
+
+class RecipeListViewCategory(RecipeListViewBase):
+    template_name = "recipes/pages/category.html"
+    ordering = ["-id"]
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(category__id=self.kwargs.get("category_id"))
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        cd = super().get_context_data(*args, **kwargs)
+        page_object, pagination_range = make_pagination(
+            self.request, cd.get("recipes"), PER_PAGE_CATEGORY_SEARCH)
+        cd.update({
+            "recipes": page_object,
+            "pagination_range": pagination_range,
+            "title": f"{cd['recipes'][0].category.name}",
+        })
         return cd
 
 
 class RecipeListViewHome(RecipeListViewBase):
     template_name = "recipes/pages/home.html"
-
-
-class RecipeListViewCategory(RecipeListViewBase):
-    template_name = "recipes/pages/category.html"
+    ordering = ["-id"]
