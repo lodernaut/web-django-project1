@@ -5,6 +5,9 @@ from django.views.generic import ListView
 from recipes.models import Recipe
 from utils.pagination import make_pagination
 
+PER_PAGE_HOME = int(os.environ.get("PER_PAGE_HOME", 6))
+PER_PAGE_CATEGORY_SEARCH = int(os.environ.get("PER_PAGE_CATEGORY_SEARCH", 6))
+
 
 class RecipeListViewBase(ListView):
     # sobrescrevendo
@@ -23,7 +26,6 @@ class RecipeListViewBase(ListView):
         return qs
 
     def get_context_data(self, *args, **kwargs):
-        PER_PAGE_HOME = int(os.environ.get("PER_PAGE_HOME", 6))
         cd = super().get_context_data(*args, **kwargs)
         page_object, pagination_range = make_pagination(
             self.request, cd.get("recipes"), PER_PAGE_HOME)
@@ -37,3 +39,7 @@ class RecipeListViewBase(ListView):
 
 class RecipeListViewHome(RecipeListViewBase):
     template_name = "recipes/pages/home.html"
+
+
+class RecipeListViewCategory(RecipeListViewBase):
+    template_name = "recipes/pages/category.html"
