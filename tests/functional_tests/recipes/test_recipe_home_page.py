@@ -9,14 +9,14 @@ from tests.functional_tests.recipes.base import RecipeBaseFunctionalTest
 
 @pytest.mark.functional_test
 class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
-    @patch("recipes.views.PER_PAGE_HOME", new=3)
+    @patch("recipes.views.all.PER_PAGE_HOME", new=3)
     def test_recipe_home_page_without_recipes_not_found_messages(self):
         # fazendo uma get do servidor // self.live_server_url abre o servido automaticamente sem precisar link # noqa:501
         self.browser.get(self.live_server_url)
         body = self.browser.find_element(By.TAG_NAME, "body")
         self.assertIn("No recipes found here", body.text)
 
-    @patch("recipes.views.PER_PAGE_HOME", new=3)
+    @patch("recipes.views.all.PER_PAGE_HOME", new=3)
     def test_recipe_search_input_can_find_correct_recipes(self):
         recipes = self.make_recipe_in_batch()
 
@@ -32,7 +32,7 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         self.assertIn(title, self.browser.title)
         self.sleep(3)
 
-    @patch("recipes.views.PER_PAGE_HOME", new=3)
+    @patch("recipes.views.all.PER_PAGE_HOME", new=3)
     def test_recipe_home_page_pagination(self):
         self.make_recipe_in_batch()
 

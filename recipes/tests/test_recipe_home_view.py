@@ -59,7 +59,7 @@ class RecipeHomeViewTest(RecipeTestBase):
 
     # mock
 
-    @patch("recipes.views.PER_PAGE_HOME", new=3)
+    @patch("recipes.views.all.PER_PAGE_HOME", new=3)
     def test_recipe_home_is_paginator_mock(self):
         self.make_recipe_in_batch(amount=8)
 
@@ -81,7 +81,7 @@ class RecipeHomeViewTest(RecipeTestBase):
             self.make_recipe(**kwargs)
 
         # context manage
-        with patch("recipes.views.PER_PAGE_HOME", new=3):
+        with patch("recipes.views.all.PER_PAGE_HOME", new=3):
             response = self.client.get(reverse("recipes:home"))
             recipes = response.context["recipes"]
 
@@ -96,7 +96,7 @@ class RecipeHomeViewTest(RecipeTestBase):
     def test_invalid_page_query_uses_page_one(self):
         self.make_recipe_in_batch(amount=8)
 
-        with patch('recipes.views.PER_PAGE_HOME', new=3):
+        with patch('recipes.views.all.PER_PAGE_HOME', new=3):
             response = self.client.get(reverse('recipes:home') + '?page=12A')
             self.assertEqual(
                 response.context['recipes'].number,
