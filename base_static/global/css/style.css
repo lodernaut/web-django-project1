@@ -42,7 +42,6 @@
     --spacing-gutter-large: 4rem;
 }
 
-
 * {
     padding: 0;
     margin: 0;
@@ -370,27 +369,6 @@ H6 {
 
 }
 
-.pagination-content {
-    display: flex;
-    flex-flow: row wrap;
-    gap: 1rem 0.5rem;
-}
-
-.pagination .page-item {
-    background: var(--color-gray-3);
-    padding: 0.5rem 1rem;
-}
-
-.pagination .page-link {
-    text-decoration: none;
-    background: var(--color-primary);
-    color: white;
-}
-
-.pagination .page-current {
-    background: var(--color-primary-dark);
-}
-
 /* Forms */
 .form-content {
     max-width: 64rem;
@@ -578,6 +556,51 @@ color: var(--color-debug-dark);
 .fa-trash-can {
     font-size: 1.3rem;
     margin-left: 0.5rem;
+}
+
+/* new pagination-css */
+.pagination-container {
+    padding: 0;
+    padding-bottom: 1rem;
+    margin: 0 auto;
+}
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+    flex-flow: row wrap;
+    gap: 1rem 0.5rem;
+    justify-content: center;
+}
+
+.pagination a[class="page-link"] {
+    background: var(--color-primary-dark);
+    text-decoration: none;
+    color: white;
+    padding:  0.5rem 1rem;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all ease-in-out 300ms;
+}
+
+.pagination a[class="page-link"]:hover {
+    background: var(--color-primary);
+    color: white;
+    transition: all ease-in-out 300ms;
+}
+
+.pagination a[class="page-link"]:hover {
+    overflow: hidden;
+}
+
+.pagination .page-item[aria-current="page"] {
+    background: var(--color-gray-3);
+    color: var(--color-primary-dark);
+    padding:  0.5rem 1rem;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 @media (max-width: 600px) { /* Para todo dispositivo que for menor que 600px */
