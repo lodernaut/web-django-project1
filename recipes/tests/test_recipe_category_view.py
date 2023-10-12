@@ -4,13 +4,14 @@ from recipes import views
 
 from .test_recipe_base import RecipeTestBase
 
+
 # Create your tests here.
-
-
 class RecipeCategoryViewTest(RecipeTestBase):
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse("recipes:category", kwargs={"category_id": 1}))
-        self.assertIs(view.func, views.category)
+        # self.assertIs(view.func, views.category) #FBV
+        self.assertIs(
+            view.func.view_class, views.RecipeListViewCategory)  # CBV
 
     def test_recipe_category_view_returns_404_if_no_recipes_found(self):
         response = self.client.get(

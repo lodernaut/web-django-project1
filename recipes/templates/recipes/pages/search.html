@@ -17,4 +17,10 @@
 
     </div>
 
+    {% if not recipes %}
+        {% include "global/partials/back_and_home.html" %}
+    {% else %}
+        {% include "global/partials/pagination.html" %}
+    {% endif %}
+
 {% endblock content %}

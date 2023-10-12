@@ -54,12 +54,7 @@ class RecipeListViewCategory(RecipeListViewBase):
     def get_context_data(self, *args, **kwargs):
         cd = super().get_context_data(*args, **kwargs)
         recipes = self.get_queryset()
-        paginator = Paginator(recipes, 9)
-        page_number = self.request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
         cd.update({
-            "recipes": page_obj,
-            "page_obj": page_obj,
             "title": f"{recipes[0].category.name}"
         })
         return cd
@@ -87,19 +82,9 @@ class RecipeListViewSearch(RecipeListViewBase):
     def get_context_data(self, *args, **kwargs):
         cd = super().get_context_data(*args, **kwargs)
         search_term = self.request.GET.get("q", "").strip()
-        recipes = self.get_queryset()
-        paginator = Paginator(recipes, 9)
-        page_number = self.request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
         cd.update({
             "page_title": f"Search for '{search_term}'",
             "search_term": search_term,
-            "recipes": page_obj,
-            "page_obj": page_obj,
             "add_url_query": f"&q={search_term}",
         })
         return cd
-
-
-# 4 cafés
-# 1 Paçocafé
