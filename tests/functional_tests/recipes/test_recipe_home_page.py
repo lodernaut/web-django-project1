@@ -16,9 +16,8 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         body = self.browser.find_element(By.TAG_NAME, "body")
         self.assertIn("No recipes found here", body.text)
 
-    @patch("recipes.views.all.PER_PAGE_HOME", new=3)
     def test_recipe_search_input_can_find_correct_recipes(self):
-        recipes = self.make_recipe_in_batch()
+        recipes = self.make_recipe_in_batch(amount=3)
 
         title = "This is what i need"
         recipes[2].title = title
@@ -30,22 +29,17 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         search_input.send_keys(title)
         search_input.send_keys(Keys.ENTER)
         self.assertIn(title, self.browser.title)
-        self.sleep(3)
 
-    @patch("recipes.views.all.PER_PAGE_HOME", new=3)
     def test_recipe_home_page_pagination(self):
-        self.make_recipe_in_batch()
+        self.make_recipe_in_batch(amount=12)
 
-        # user open page
+        # Navigate to the home page
         self.browser.get(self.live_server_url)
 
-        # Viewing pagination, click page 2
         page2 = self.browser.find_element(
-            By.XPATH, "//a[@aria-label='Go to page 2']")  # ← usuário clicando na pág 2
-
+            By.XPATH, "/html/body/main/nav/div/ul/a[2]")  # ← usuário clicando na pág 2
         page2.click()
-        elements = self.browser.find_elements(
-            By.XPATH, "//h2[@class='recipe-title']")  # puxando elementos da pág
-        # viewing 3 recipe on page 2
-        # self.sleep(60)
-        self.assertEqual(len(elements), 3)
+
+        recipe_elements = self.browser.find_elements(
+            By.CLASS_NAME, "recipe")   # puxando elementos da pág
+        self.assertEqual(len(recipe_elements), 3)

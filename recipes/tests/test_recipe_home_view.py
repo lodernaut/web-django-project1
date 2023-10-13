@@ -7,12 +7,11 @@ from recipes import views
 
 from .test_recipe_base import RecipeTestBase
 
+
 # Create your tests here.
-
-
 class RecipeHomeViewTest(RecipeTestBase):
     # teste: função de view → 'home' está correta?
-    def test_recipe_home_view_function_is_correct(self):
+    def test_recipe_home_view_class_is_correct(self):
         view = resolve(reverse("recipes:home"))
         self.assertIs(view.func.view_class, views.RecipeListViewHome)
 
@@ -60,56 +59,31 @@ class RecipeHomeViewTest(RecipeTestBase):
 
     # mock
 
-    @patch("recipes.views.recipe_list_view.PER_PAGE_HOME", new=3)
     def test_recipe_home_is_paginator_mock(self):
-        self.make_recipe_in_batch(amount=8)
+        self.make_recipe_in_batch(amount=27)
 
         response = self.client.get(reverse("recipes:home"))
         recipes = response.context["recipes"]
 
         paginator = recipes.paginator
 
-        # criou 9 receitas → retornar 3 pág
+        # criou 27 receitas → retornar 3 page
         self.assertEqual(paginator.num_pages, 3)
-        # Verificando quantas receitas tem na pág 1, esperado 3
-        self.assertEqual(len(paginator.get_page(1)), 3)
+
+        # Verificando quantas receitas tem na page 1, esperado 9
+        self.assertEqual(len(paginator.get_page(1)), 9)
 
     def test_recipe_home_is_paginator_context_manage(self):
-        for i in range(9):  # for para 9 receitas criadas
-            kwargs = {
-                "author_data": {"username": f"username_test{i+1}"},
-                "slug": f"slug-test-{i+1}"}
-            self.make_recipe(**kwargs)
+        self.make_recipe_in_batch(amount=20)
+        response = self.client.get(reverse("recipes:home"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('page_obj' in response.context)
+        self.assertEqual(len(response.context['page_obj']), 9)
 
-        # context manage
-        with patch("recipes.views.recipe_list_view.PER_PAGE_HOME", new=3):
-            response = self.client.get(reverse("recipes:home"))
-            recipes = response.context["recipes"]
-
-            paginator = recipes.paginator
-
-            # criou 9 receitas → retornar 3 pág
-            self.assertEqual(paginator.num_pages, 3)
-
-            # Verificando quantas receitas tem na pág 1, esperado 3
-            self.assertEqual(len(paginator.get_page(1)), 3)
-
-    # def test_invalid_page_query_uses_page_one(self): # FBV
-    #     self.make_recipe_in_batch(amount=8)
-
-    #     with patch('recipes.views.recipe_list_view.PER_PAGE_HOME', new=3):
-    #         response = self.client.get(reverse('recipes:home') + '?page=12A')
-    #         self.assertEqual(
-    #             response.context['recipes'].number,
-    #             1
-    #         )
-    #         response = self.client.get(reverse('recipes:home') + '?page=2')
-    #         self.assertEqual(
-    #             response.context['recipes'].number,
-    #             2
-    #         )
-    #         response = self.client.get(reverse('recipes:home') + '?page=3')
-    #         self.assertEqual(
-    #             response.context['recipes'].number,
-    #             3
-    #         )
+    def test_invalid_page_query(self):
+        self.make_recipe_in_batch(amount=20)
+        response = self.client.get(
+            reverse("recipes:home"), {"page": "invalid"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("page_obj" in response.context)
+        self.assertEqual(len(response.context["page_obj"]), 9)

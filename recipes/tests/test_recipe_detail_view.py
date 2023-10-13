@@ -8,9 +8,9 @@ from .test_recipe_base import RecipeTestBase
 
 
 class RecipeDetailViewTest(RecipeTestBase):
-    def test_recipe_detail_view_function_is_correct(self):
+    def test_recipe_detail_view_class_is_correct(self):
         view = resolve(reverse("recipes:recipe", args=(1,)))
-        self.assertIs(view.func, views.recipe)
+        self.assertIs(view.func.view_class, views.RecipeDetailView)
 
     def test_recipe_detail_view_returns_404_if_no_recipes_found(self):
         response = self.client.get(

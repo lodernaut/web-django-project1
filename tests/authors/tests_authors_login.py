@@ -65,7 +65,7 @@ class AuthorsLoginTest(AuthorsBaseTest):
 
         self.assertIn("Invalid credentials.", self.browser.find_element(
             By.TAG_NAME, "body").text)
-        self.sleep(5)
+        # self.sleep(5)
 
     def test_login_invalid_username_or_password(self):
         self.browser.get(self.live_server_url + reverse("authors:login"))
