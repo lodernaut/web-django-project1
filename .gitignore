@@ -130,6 +130,3 @@ gunicorn-error-log
 db.sqlite3
 db copy.sqlite3
 static/
-
-#Add again for course purpose  #isso é a base de dados não se envia
-!db.sqlite3 
