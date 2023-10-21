@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from time import sleep
 
+from django.core.cache import cache
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
@@ -33,3 +34,15 @@ if __name__ == "__main__":
     browser.get("https://www.google.com/")
     sleep(5)
     browser.quit()
+
+
+# RunServer Cache Clear
+class ClearCacheMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        print("DjangoCacheClean 🧹")
+        cache.clear()
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        return response
