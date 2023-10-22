@@ -1,7 +1,5 @@
 from django.contrib import admin
 
-from utils.django_forms import slugify
-
 from .models import Category, Recipe
 
 # Register your models here.
