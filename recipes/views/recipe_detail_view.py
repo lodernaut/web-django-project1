@@ -1,3 +1,6 @@
+from typing import Any
+
+from django import http
 from django.views.generic import DetailView
 
 from recipes.models import Recipe
@@ -19,3 +22,8 @@ class RecipeDetailView(DetailView):
         cd.update({
             "is_detail_page": True, })
         return cd
+
+
+class RecipeDetailViewApi(RecipeDetailView):
+    def render_to_response(self, context, **response_kwargs):
+        return super().render_to_response(context, **response_kwargs)

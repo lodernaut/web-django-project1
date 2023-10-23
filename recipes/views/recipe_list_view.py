@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_list_or_404
 from django.views.generic import ListView
 
@@ -39,6 +39,26 @@ class RecipeListViewBase(ListView):
 
 class RecipeListViewHome(RecipeListViewBase):
     template_name = "recipes/pages/home.html"
+
+
+# respondendo via JSON
+class RecipeListViewHomeApi(RecipeListViewHome):
+    # sobrescrevendo método que renderiza
+    def render_to_response(self, context, **response_kwargs):
+        recipes = context['recipes']
+        data = []
+        for recipe in recipes:
+            recipe_data = {
+                'id': recipe.id,
+                'title': recipe.title,
+                'description': recipe.description,
+                'category': recipe.category.name if recipe.category else None,
+                'cover': recipe.cover.url if recipe.cover else None,
+                # Adicione outros campos que você deseja retornar
+            }
+            data.append(recipe_data)
+
+        return JsonResponse(data, safe=False)
 
 
 class RecipeListViewCategory(RecipeListViewBase):
