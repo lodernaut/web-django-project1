@@ -57,7 +57,6 @@ class RecipeListViewHomeApi(RecipeListViewHome):
                 # Adicione outros campos que você deseja retornar
             }
             data.append(recipe_data)
-
         return JsonResponse(data, safe=False)
 
 

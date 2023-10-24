@@ -19,4 +19,7 @@ urlpatterns = [
     path(
         "recipes/api/v1/", views.RecipeListViewHomeApi.as_view(),
         name="recipes_api_home"),
+    path(
+        "recipes/api/v1/<int:id>/", views.RecipeDetailViewApi.as_view(),
+        name="recipes_api_recipe"),
 ]
